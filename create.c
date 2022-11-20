@@ -67,8 +67,14 @@ int main(void) {
     wcscpy(question,L"请输入学校及班级名称：");
     printf("%ls",question);
     scanf("%ls%ls",school,class);
-    sprintf(query,"INSERT INTO Class VALUES(%d,%ls,%ls,%ls);",&num,class,name,school);
-    do_query(query,db);
+    sprintf(query,"INSERT INTO Class VALUES(%d,'%ls','%ls','%ls');",&num,class,name,school);
+    rc = sqlite3_exec(db,query,NULL,NULL,&zErrMsg);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr,"Sql error:%s\n",zErrmsg);
+        sqlite3_free(zErrmsg);
+        sqlite3_close(db);
+        exit(1);
+    }
     sqlite3_close(db);
     return 0;
 }
