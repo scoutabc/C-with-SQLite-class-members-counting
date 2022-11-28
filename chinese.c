@@ -2,6 +2,7 @@
 #include<wchar.h>
 #include<stdio.h>
 #include<locale.h>
+//This is the test file about Chinese output and input problem.
 
 int main() {
     setlocale(LC_ALL,"");
