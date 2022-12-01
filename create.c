@@ -78,20 +78,27 @@ int main(void) {
             ");");
     do_query(query,db);
     //Then users can create class information
-    wchar_t question[] = L"请输入班主任姓名：";
+    int saving,num;
+    wchar_t question[300];
     wchar_t name[30];
-    printf("%ls",question);
-    scanf("%ls",name);
-    int num;
-    wcscpy(question,L"请输入班级号码：");
-    printf("%ls",question);
-    scanf("%d",&num);
     wchar_t school[30];
     wchar_t class[30];
-    wcscpy(question,L"请输入学校及班级名称：");
-    printf("%ls",question);
-    scanf("%ls%ls",school,class);
-    char *zErrmsg;
+    do {
+        wcscpy(question,L"请输入班主任姓名：");
+        printf("%ls",question);
+        scanf("%ls",name);
+        wcscpy(question,L"请输入班级号码：");
+        printf("%ls",question);
+        scanf("%d",&num);
+        wcscpy(question,L"请输入学校及班级名称：");
+        printf("%ls",question);
+        scanf("%ls%ls",school,class);
+        snwprintf(question,150,L"班级号码：%d，班级名称：%ls，班主任名称：%ls，学校名称：%ls",num,class,name,school);
+        printf("%ls\n",question);
+        wcscpy(question,L"您确定保存？（保存输入1，否则输入0）");
+        printf("%ls",question);
+        scanf("%d",&saving);
+    }while(saving == 0);
     char utf8_query[1000];
     sprintf(query,"INSERT INTO Class VALUES(%d,'%ls','%ls','%ls');",num,class,name,school);
     gbk_to_utf8(query,1000,utf8_query,1000);
@@ -109,5 +116,6 @@ int main(void) {
         do_query(utf8_query,db);
     }
     sqlite3_close(db);
+    system("pause");
     return 0;
 }
