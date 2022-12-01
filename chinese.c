@@ -2,6 +2,7 @@
 #include<wchar.h>
 #include<stdio.h>
 #include<locale.h>
+#include<stdlib.h>
 
 int main() {
     setlocale(LC_ALL,"");
@@ -12,6 +13,8 @@ int main() {
     int num;
     wcscpy(question,L"请输入班级号码：");
     printf("hello:%S\n",question);
+    system("pause");
+    return 0;
     //wscanf(L"%d ",&num);
     //printf("%ls %d",name,num);
 }

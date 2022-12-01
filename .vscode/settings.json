@@ -3,7 +3,8 @@
         "wchar.h": "c",
         "locale.h": "c",
         "sqlite3.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "stdlib.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
