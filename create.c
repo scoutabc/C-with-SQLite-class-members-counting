@@ -5,6 +5,7 @@
 #include<locale.h>
 #include<string.h>
 #include<iconv.h>//When we gcc -o this file,we must plus -liconv.
+#include"create.h"
 //This is a part of this project, it can create class and student information to tables.
 
 //We will use this function to turn gbk string to utf8 string.
@@ -37,13 +38,8 @@ void do_query(char *query,sqlite3 *db) {
     }
 }
 
-int main(void) {
+void create_message(sqlite3 *db) {
     setlocale(LC_ALL,"");
-    sqlite3 *db;
-    int rc = sqlite3_open("student.db",&db);
-    if (rc != SQLITE_OK) {
-        fprintf(stderr,"Cannot open database:%s\n",sqlite3_errmsg(db));
-    }
     //I create five tables in that database
     char query[1000] = "CREATE TABLE IF NOT EXISTS Students(" \
                   "id INTEGER NOT NULL," \
@@ -111,11 +107,16 @@ int main(void) {
     for (int i = 1; i <= number_of_people; i++) {
         printf("%d:",i);
         scanf("%ls",student_name);
+        wcscpy(question,L"确定保存？（保存输入1，否则输入其他任意字符）");
+        while (getchar() != '\n');
+        printf("%ls",question);
+        char saving;
+        scanf("%c",&saving);
+        if (saving != 1){
+            continue;
+        }
         sprintf(query,"INSERT INTO Students VALUES(%d,'%ls',%d);",i,student_name,num);
         gbk_to_utf8(query,1000,utf8_query,1000);
         do_query(utf8_query,db);
     }
-    sqlite3_close(db);
-    system("pause");
-    return 0;
 }
