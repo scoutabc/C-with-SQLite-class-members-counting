@@ -1,12 +1,12 @@
 objects = main.o create.o create.h sqlite3.c
 
-create : $(objects)
-	cc -o create $(objects)
+create.exe : $(objects)
+	gcc -o create $(objects) -liconv
 
-create.o : create.h sqlite3.c
-	cc -c create.c create.o
-main.o : create.h sqlite3.c
-	cc -c main.c main.o
+create.o : create.h sqlite3.c create.c
+	gcc -c create.c
+main.o : create.h sqlite3.c main.c
+	gcc -c main.c
 
 .PHONY : clean
 clean :
