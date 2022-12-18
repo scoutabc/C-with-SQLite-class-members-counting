@@ -6,6 +6,8 @@
 #include<string.h>
 #include<iconv.h>
 #include"create.h"
+#include<getopt.h>
+
 int gbk_to_utf8(char *inbuf,int inlen,char *outbuf,int outlen) {
     iconv_t cd; //That is conversion codes
     int rc;
@@ -30,6 +32,31 @@ int main(int argc,char *argv[]) {
     if (rc != SQLITE_OK) {
         fprintf(stderr,"Cannot open this database.");
     }
-    create_message(db,stmt);
+    static struct option options[] = {
+        {"add",no_argument,NULL,'a'},
+        {"change",required_argument,NULL,'c'},
+        {"help",no_argument,NULL,'h'},
+        {"list",no_argument,NULL,'l'},
+        {NULL,0,NULL,0}
+    };
+    int opt_index;
+    char c = getopt_long(argc,argv,"ac:hl",options,&opt_index);
+    switch (c) {
+        case 0:
+            printf("yahu\n");
+            break;
+        case 'a':
+            create_message(db,stmt);
+            break;
+        case 'c':
+            break;
+        case 'h':
+            do_help();
+            break;
+        case 'l':
+            break;
+        default:
+            break;
+    }
     return 0;
 }

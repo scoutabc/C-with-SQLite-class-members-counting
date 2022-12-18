@@ -6,5 +6,12 @@
         "stdio.h": "c",
         "stdlib.h": "c"
     },
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "c:\\Code\\C",
+            "binaryPath": "c:\\Code\\C\\create",
+            "binaryArgs": []
+        }
+    ]
 }
