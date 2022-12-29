@@ -40,23 +40,26 @@ int main(int argc,char *argv[]) {
         {NULL,0,NULL,0}
     };
     int opt_index;
-    char c = getopt_long(argc,argv,"ac:hl",options,&opt_index);
+    char c = getopt_long(argc,argv,"ac:hln",options,&opt_index);
     switch (c) {
-        case 0:
-            printf("yahu\n");
-            break;
         case 'a':
             create_message(db,stmt);
             break;
         case 'c':
             break;
+        case '?':
         case 'h':
             do_help();
             break;
         case 'l':
             break;
+        case -1:
+        case 'n':
+            printf("n\n");
+            break;
         default:
             break;
     }
+    system("pause");
     return 0;
 }
