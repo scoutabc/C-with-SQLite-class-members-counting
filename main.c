@@ -55,7 +55,7 @@ int main(int argc,char *argv[]) {
             break;
         case -1:
         case 'n':
-            printf("n\n");
+            count_the_students(db,stmt);
             break;
         default:
             break;
