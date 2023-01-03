@@ -38,7 +38,7 @@ void create_message(sqlite3 *db,sqlite3_stmt *stmt) {
     strcpy(query,"CREATE TABLE IF NOT EXISTS Service(" \
             "id INTEGER NOT NULL," \
             "name CHAR[30] NOT NULL," \
-            "price INTEGER NOT NULL" \
+            "price REAL NOT NULL" \
             ");");
     do_query(query,db);
     strcpy(query,"CREATE TABLE IF NOT EXISTS Class_supply_service(" \
