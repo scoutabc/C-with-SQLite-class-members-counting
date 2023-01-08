@@ -55,7 +55,7 @@ void create_message(sqlite3 *db,sqlite3_stmt *stmt) {
             ");");
     do_query(query,db);
     //Then users can create class information
-    int saving,num;
+    int saving,num,rc;
     wchar_t question[300];
     wchar_t name[30];
     wchar_t school[30];
@@ -84,6 +84,41 @@ void create_message(sqlite3 *db,sqlite3_stmt *stmt) {
     sqlite3_bind_text16(stmt,4,school,-1,SQLITE_TRANSIENT);
     sqlite3_step(stmt);
     sqlite3_finalize(stmt);
+    sprintf(query,"SELECT * FROM Service");
+    sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+    wcscpy(question,L"目前有以下几种服务:");
+    printf("%ls\n",question);
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+    {
+        int service_id = sqlite3_column_int(stmt,0);
+        wchar_t *service_name = (wchar_t*)sqlite3_column_text16(stmt,1);
+        double service_price = sqlite3_column_double(stmt,2);
+        printf("%d  %ls  %g\n",service_id,service_name,service_price);
+    }
+    sqlite3_finalize(stmt);
+    int times;
+    wcscpy(question,L"您班提供几项服务?(输入服务内容时请输入编号)");
+    printf("%ls",question);
+    scanf("%d",&times);
+    for (int i = 1; i <= times; i++) {
+        int class_service_id;
+        printf("%d:",i);
+        scanf("%d",&class_service_id);
+        wcscpy(question,L"您确定?(确定输入1,否则输入0)");
+        printf("%ls",question);
+        scanf("%d",&saving);
+        if (saving != 1) {
+            i--;
+            continue;
+        }
+        sprintf(query,"INSERT INTO Class_supply_service VALUES(?,?);");
+        sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+        sqlite3_bind_int(stmt,1,num);
+        sqlite3_bind_int(stmt,2,class_service_id);
+        sqlite3_step(stmt);
+        sqlite3_finalize(stmt);
+    }
+    
     wchar_t student_name[20];
     wcscpy(question,L"您班有几名同学?");
     printf("%ls",question);
