@@ -14,5 +14,6 @@
             "binaryPath": "c:\\Code\\C\\create",
             "binaryArgs": []
         }
-    ]
+    ],
+    "editor.suggest.snippetsPreventQuickSuggestions": false
 }
