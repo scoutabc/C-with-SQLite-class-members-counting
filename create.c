@@ -50,7 +50,7 @@ void create_message(sqlite3 *db,sqlite3_stmt *stmt) {
             "class_id INTEGER NOT NULL," \
             "student_id INTEGER NOT NULL,"\
             "service_id INTEGER NOT NULL," \
-            "date DATE NOT NULL," \
+            "date TEXT NOT NULL," \
             "duration INTEGER NOT NULL" \
             ");");
     do_query(query,db);

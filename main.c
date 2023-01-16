@@ -7,6 +7,7 @@
 #include<iconv.h>
 #include"create.h"
 #include<getopt.h>
+#include<time.h>
 
 int gbk_to_utf8(char *inbuf,int inlen,char *outbuf,int outlen) {
     iconv_t cd; //That is conversion codes
