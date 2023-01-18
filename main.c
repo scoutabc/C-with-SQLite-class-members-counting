@@ -9,23 +9,6 @@
 #include<getopt.h>
 #include<time.h>
 
-int gbk_to_utf8(char *inbuf,int inlen,char *outbuf,int outlen) {
-    iconv_t cd; //That is conversion codes
-    int rc;
-    char **pin = &inbuf;
-    char **pout = &outbuf;
-    cd = iconv_open("UTF-8","GB2312");
-    if (cd == 0) {
-        return -1;
-    }
-    memset(outbuf,0,outlen);
-    if (iconv(cd,pin,&inlen,pout,&outlen) == -1) {
-        return -1;
-    }
-    iconv_close(cd);
-    return 0;
-}
-
 int main(int argc,char *argv[]) {
     sqlite3 *db;
     sqlite3_stmt* stmt;
@@ -47,6 +30,7 @@ int main(int argc,char *argv[]) {
             create_message(db,stmt);
             break;
         case 'c':
+            change_information(db,stmt);
             break;
         case '?':
         case 'h':
