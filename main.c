@@ -18,13 +18,13 @@ int main(int argc,char *argv[]) {
     }
     static struct option options[] = {
         {"add",no_argument,NULL,'a'},
-        {"change",required_argument,NULL,'c'},
+        {"change",no_argument,NULL,'c'},
         {"help",no_argument,NULL,'h'},
         {"list",no_argument,NULL,'l'},
         {NULL,0,NULL,0}
     };
     int opt_index;
-    char c = getopt_long(argc,argv,"ac:hln",options,&opt_index);
+    char c = getopt_long(argc,argv,"achln",options,&opt_index);
     switch (c) {
         case 'a':
             create_message(db,stmt);
