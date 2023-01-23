@@ -7,7 +7,7 @@
 void do_help() {
     setlocale(LC_ALL,"");
     wchar_t usage[] =  L"这个命令可以进行中小学校内数据统计.\n\n"\
-                       L"create [-a/--add] [-c/--change] [number-of-new-students] [-h/--help] [-l/--list] [-n/--count]\n\n"\
+                       L"create [-a/--add] [-c/--change] [-h/--help] [-l/--list] [-n/--count]\n\n"\
                        L"-a, --add              添加新的班级,以及该班级的学生\n"\
                        L"-c, --change           改变班级,学生和服务信息\n"\
                        L"-h, --help             显示该命令的使用说明\n"\

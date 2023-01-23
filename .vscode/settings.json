@@ -5,7 +5,8 @@
         "sqlite3.h": "c",
         "stdio.h": "c",
         "stdlib.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "create.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "makefile.launchConfigurations": [
