@@ -25,14 +25,14 @@ void do_query_with_prepare(sqlite3 *db,sqlite3_stmt *stmt,char *query) {
 void change_information(sqlite3 *db, sqlite3_stmt *stmt) {
     setlocale(LC_ALL,"");
     wchar_t question[300];
-    char  query[300];
-    int saving;
-    int num;
     wcscpy(question,L"请选择您要更改的信息内容:1.班级信息    2.学生信息    3.服务信息");
     printf("%ls\n",question);
     int information;
     scanf("%d",&information);
     if (information == 1) {
+        char  query[300];
+        int saving;
+        int num;
         wcscpy(question,L"请输入您要更改的班级现在的班级号码:");
         printf("%ls",question);
         scanf("%d",&num);
@@ -75,5 +75,41 @@ void change_information(sqlite3 *db, sqlite3_stmt *stmt) {
                 exit(0);
             }
         }
+        wcscpy(question,L"您班级是否已经升年级(如果您输入1,将会更改您的班级号码,但不会更改班级名称)");
+        printf("%ls",question);
+        int is_up_grade;
+        scanf("%d",&is_up_grade);
+        if (is_up_grade == 1) {
+            sprintf(query,"UPDATE Class SET id = id + 100 WHERE id = %d",num);
+            do_query_with_prepare(db,stmt,query);
+            sprintf(query,"UPDATE Students SET class_id = class_id + 1 WHERE class_id = %d",num);
+            do_query_with_prepare(db,stmt,query);
+            sprintf(query,"UPDATE Class_supply_service SET class_id = class_id + 1 WHERE class_id = %d",num);
+            do_query_with_prepare(db,stmt,query);
+            sprintf(query,"UPDATE Student_join_service SET class_id = class_id + 1 WHERE class_id = %d",num);
+            do_query_with_prepare(db,stmt,query);
+            num += 100;
+        }
+        wchar_t changed_teacher[20];
+        wchar_t changed_name[20];
+        wchar_t changed_school[30];
+        wcscpy(question,L"请输入您班级的信息(更改后)");
+        printf("%ls\n",question);
+        wcscpy(question,L"班主任名称:");
+        printf("%ls",question);
+        scanf("%ls",changed_teacher);
+        wcscpy(question,L"班级名称:");
+        printf("%ls",question);
+        scanf("%ls",changed_name);
+        wcscpy(question,L"学校名称:");
+        printf("%ls",question);
+        scanf("%ls",changed_school);
+        sprintf(query,"UPDATE Class SET school = ?,class = ?,teacher = ? WHERE id = %d",num);
+        sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+        sqlite3_bind_text16(stmt,1,changed_school,-1,SQLITE_TRANSIENT);
+        sqlite3_bind_text16(stmt,2,changed_name,-1,SQLITE_TRANSIENT);
+        sqlite3_bind_text16(stmt,3,changed_teacher,-1,SQLITE_TRANSIENT);
+        sqlite3_step(stmt);
+        sqlite3_finalize(stmt);
     }
 }
