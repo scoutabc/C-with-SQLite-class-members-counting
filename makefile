@@ -1,4 +1,4 @@
-objects = main.o create.o create.h sqlite3.c help.o count.o change.o
+objects = main.o create.o create.h sqlite3.c help.o count.o change.o change_class.o change_student.o
 
 create.exe : $(objects)
 	gcc -o create $(objects) -liconv
@@ -13,7 +13,11 @@ count.o : create.h sqlite3.c count.c
 	gcc -c count.c
 change.o : create.h sqlite3.c change.c
 	gcc -c change.c
+change_class.o : create.h sqlite3.c change_class.c
+	gcc -c change_class.c
+change_student.o : create.h sqlite3.c change_student.c
+	gcc -c change_student.c
 
 .PHONY : clean
 clean :
-	rm create main.o create.o
+	rm create $(objects)
