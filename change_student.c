@@ -68,11 +68,27 @@ void change_student(sqlite3_stmt *stmt,sqlite3 *db) {
     scanf("%d",&saving);
     if (saving == 1) {
         int the_count_of_change;
+        wcscpy(question,L"以下为您班同学现在的名称:");
+        printf("%ls",question);
+        sprintf(query,"SELECT name FROM Students;");
+        sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+        while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+            wchar_t *student_name = (wchar_t*)sqlite3_column_text16(stmt,0);
+            printf("%ls\n",student_name);
+        }
+        sqlite3_finalize(stmt);
         wcscpy(question,L"您需要更改几名学生?");
         printf("%ls",question);
         scanf("%d",&the_count_of_change);
         for (int i = 1; i < the_count_of_change;i++) {
-            
+            wchar_t new_student_name[20];
+            int student_id;
+            wcscpy(question,L"请输入学生编号:");
+            printf("%ls",question);
+            scanf("%d",&student_id);
+            wcscpy(question,L"请重新输入该学生的名称:");
+            printf("%ls",question);
+            scanf("%ls",new_student_name);
         }
     }
 }
