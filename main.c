@@ -8,7 +8,7 @@
 #include"create.h"
 #include<getopt.h>
 #include<time.h>
-
+//这个程序是该项目的主程序
 int main(int argc,char *argv[]) {
     sqlite3 *db;
     sqlite3_stmt* stmt;

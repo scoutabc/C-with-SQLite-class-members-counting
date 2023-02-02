@@ -5,9 +5,9 @@
 #include<locale.h>
 #include<string.h>
 #include"create.h"
-//This is a part of this project, it can create class and student information to tables.
+//这个程序可以将学生和班级信息储存到表格中
 
-//We will use this function to do some sql queries
+//可以用这个函数执行一些sql命令
 void do_query(char *query,sqlite3 *db) {
     char *zErrMsg;
     int rc = sqlite3_exec(db,query,NULL,NULL,&zErrMsg);
@@ -18,7 +18,7 @@ void do_query(char *query,sqlite3 *db) {
         exit(1);
     }
 }
-
+//这个函数可以储存班级和学生信息
 void create_message(sqlite3 *db,sqlite3_stmt *stmt) {
     setlocale(LC_ALL,"");
     //I create five tables in that database

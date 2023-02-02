@@ -3,7 +3,7 @@
 #include<locale.h>
 #include"create.h"
 
-//It can print usage
+//输出用法指南
 void do_help() {
     setlocale(LC_ALL,"");
     wchar_t usage[] =  L"这个命令可以进行中小学校内数据统计.\n\n"\

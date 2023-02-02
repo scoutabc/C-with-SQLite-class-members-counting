@@ -3,7 +3,7 @@
 #include<wchar.h>
 #include"create.h"
 #include"sqlite3.h"
-
+//更改,删除或添加学生信息
 void change_student(sqlite3_stmt *stmt,sqlite3 *db) {
     int saving;
     wchar_t question[300];
@@ -89,6 +89,12 @@ void change_student(sqlite3_stmt *stmt,sqlite3 *db) {
             wcscpy(question,L"请重新输入该学生的名称:");
             printf("%ls",question);
             scanf("%ls",new_student_name);
+            wcscpy(question,L"您确定吗?");
+            printf("%ls",question);
+            scanf("%d",saving);
+            if (saving != 1) {
+                
+            }
         }
     }
 }

@@ -4,7 +4,7 @@
 #include<locale.h>
 #include"create.h"
 #include <time.h>
-
+//可以统计一天的参加服务情况.
 void count_the_students(sqlite3 *db,sqlite3_stmt *stmt) {
     setlocale(LC_ALL,"");
     wchar_t question[300];
