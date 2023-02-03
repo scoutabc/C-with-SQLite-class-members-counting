@@ -6,3 +6,6 @@
 
 # 数据文件
 *.db
+
+#Makefile
+makefile

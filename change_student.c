@@ -31,13 +31,22 @@ void change_student(sqlite3_stmt *stmt,sqlite3 *db) {
         printf("%ls",question);
         exit(1);
     }
+    wcscpy(question,L"以下为您班同学现在的名称:");
+    printf("%ls",question);
+    sprintf(query,"SELECT name FROM Students WHERE class_id = %d;",num);
+    sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+    int rc;
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        wchar_t *student_name = (wchar_t*)sqlite3_column_text16(stmt,0);
+        printf("%ls\n",student_name);
+    }
     wcscpy(question,L"您是否需要添加学生(只能添加到最后)");
     printf("%ls\n");
     scanf("%d",&saving);
     int count_of_students;
     sprintf(query,"SELECT COUNT(*) FROM Students WHERE class_id = %d;",num);
     sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
-    int rc = sqlite3_step(stmt);
+    rc = sqlite3_step(stmt);
     count_of_students = sqlite3_column_int(stmt,0);
     if (saving == 1) {
         wcscpy(question,L"您需要添加多少个学生?");
@@ -68,19 +77,11 @@ void change_student(sqlite3_stmt *stmt,sqlite3 *db) {
     scanf("%d",&saving);
     if (saving == 1) {
         int the_count_of_change;
-        wcscpy(question,L"以下为您班同学现在的名称:");
-        printf("%ls",question);
-        sprintf(query,"SELECT name FROM Students;");
-        sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
-        while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
-            wchar_t *student_name = (wchar_t*)sqlite3_column_text16(stmt,0);
-            printf("%ls\n",student_name);
-        }
         sqlite3_finalize(stmt);
         wcscpy(question,L"您需要更改几名学生?");
         printf("%ls",question);
         scanf("%d",&the_count_of_change);
-        for (int i = 1; i < the_count_of_change;i++) {
+        for (int i = 1; i <= the_count_of_change;i++) {
             wchar_t new_student_name[20];
             int student_id;
             wcscpy(question,L"请输入学生编号:");
@@ -91,9 +92,48 @@ void change_student(sqlite3_stmt *stmt,sqlite3 *db) {
             scanf("%ls",new_student_name);
             wcscpy(question,L"您确定吗?");
             printf("%ls",question);
-            scanf("%d",saving);
+            scanf("%d",&saving);
             if (saving != 1) {
-                
+                i--;
+                continue;
+            }else {
+                sprintf(query,"UPDATE Students SET name = ? WHERE id = %d AND class_id = %d;",student_id,num);
+                sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+                sqlite3_bind_text16(stmt,1,new_student_name,-1,SQLITE_TRANSIENT);
+                sqlite3_step(stmt);
+                sqlite3_finalize(stmt);
+                sprintf(query,"UPDATE Student SET name = ? WHERE id = %d AND class_id = %d;",student_id,num);
+                sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+                sqlite3_bind_text16(stmt,1,new_student_name,-1,SQLITE_TRANSIENT);
+                sqlite3_step(stmt);
+                sqlite3_finalize(stmt);
+            }
+        }
+    }
+    wcscpy(question,L"您是否需要删除学生信息?");
+    printf("%ls",question);
+    scanf("%d",&saving);
+    if (saving == 1) {
+        for (int i = 0; i <= 0; i++) {
+            wcscpy(question,L"您要删除哪名学生:");
+            printf("%ls",question);
+            int student_id;
+            scanf("%d",&student_id);
+            wcscpy(question,L"您确定吗?(该操作不可逆)");
+            printf("%ls",question);
+            scanf("%d",&saving);
+            if (saving != 1) {
+                i --;
+                continue;
+            }else {
+                sprintf(query,"DELETE FROM Students WHERE id = %d AND class_id = %d;UPDATE Students SET id = id -1 WHERE id > %d AND class_id = %d;",student_id,student_id);
+                sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+                sqlite3_step(stmt);
+                sqlite3_finalize(stmt);
+                sprintf(query,"DELETE FROM Student_join_service WHERE id = %d AND class_id = %d;UPDATE Student_join_service SET id = id -1 WHERE id > %d AND class_id = %d;",student_id,student_id);
+                sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+                sqlite3_step(stmt);
+                sqlite3_finalize(stmt);
             }
         }
     }
