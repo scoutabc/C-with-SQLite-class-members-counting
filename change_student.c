@@ -126,15 +126,31 @@ void change_student(sqlite3_stmt *stmt,sqlite3 *db) {
                 i --;
                 continue;
             }else {
-                sprintf(query,"DELETE FROM Students WHERE id = %d AND class_id = %d;UPDATE Students SET id = id -1 WHERE id > %d AND class_id = %d;",student_id,student_id);
+                sprintf(query,"DELETE FROM Students WHERE id = %d AND class_id = %d;",student_id,num);
                 sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
                 sqlite3_step(stmt);
                 sqlite3_finalize(stmt);
-                sprintf(query,"DELETE FROM Student_join_service WHERE id = %d AND class_id = %d;UPDATE Student_join_service SET id = id -1 WHERE id > %d AND class_id = %d;",student_id,student_id);
+                sprintf(query,"UPDATE Students SET id = id -1 WHERE id > %d AND class_id = %d;",student_id,num);
+                sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+                sqlite3_step(stmt);
+                sqlite3_finalize(stmt);
+                sprintf(query,"DELETE FROM Student_join_service WHERE student_id = %d AND class_id = %d;",student_id,num);
+                sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+                sqlite3_step(stmt);
+                sqlite3_finalize(stmt);
+                sprintf(query,"UPDATE Student_join_service SET student_id = student_id -1 WHERE student_id > %d AND class_id = %d;",student_id,num);
                 sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
                 sqlite3_step(stmt);
                 sqlite3_finalize(stmt);
             }
         }
+    }
+    wcscpy(question,L"以下为您更改后的学生名单:");
+    printf("%ls",question);
+    sprintf(query,"SELECT name FROM Students WHERE class_id = %d;",num);
+    sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        wchar_t *students_name = (wchar_t *)sqlite3_column_text16(stmt,0);
+        printf("%ls\n",students_name);
     }
 }
