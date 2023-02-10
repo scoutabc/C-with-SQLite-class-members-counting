@@ -153,4 +153,5 @@ void change_student(sqlite3_stmt *stmt,sqlite3 *db) {
         wchar_t *students_name = (wchar_t *)sqlite3_column_text16(stmt,0);
         printf("%ls\n",students_name);
     }
+    sqlite3_finalize(stmt);
 }

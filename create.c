@@ -92,8 +92,8 @@ void create_message(sqlite3 *db,sqlite3_stmt *stmt) {
     {
         int service_id = sqlite3_column_int(stmt,0);
         wchar_t *service_name = (wchar_t*)sqlite3_column_text16(stmt,1);
-        double service_price = sqlite3_column_double(stmt,2);
-        printf("%d  %ls  %g\n",service_id,service_name,service_price);
+        wchar_t *service_price = (wchar_t *)sqlite3_column_text16(stmt,2);
+        printf("%d  %ls  %ls\n",service_id,service_name,service_price);
     }
     sqlite3_finalize(stmt);
     int times;
@@ -127,7 +127,7 @@ void create_message(sqlite3 *db,sqlite3_stmt *stmt) {
     for (int i = 1; i <= number_of_people; i++) {
         printf("%d:",i);
         scanf("%ls",student_name);
-        wcscpy(question,L"确定保存?(保存输入1,否则输入其他任意字符)");
+        wcscpy(question,L"确定保存?(保存输入1,否则输入0)");
         printf("%ls",question);
         char saving;
         while (getchar() != '\n');

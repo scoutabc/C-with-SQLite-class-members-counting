@@ -31,6 +31,16 @@ void change_class(sqlite3_stmt *stmt,sqlite3 *db) {
         printf("%ls",question);
         exit(1);
     }
+    wcscpy(question,L"您班级现在的信息如下:");
+    printf("%ls",question);
+    sprintf(query,"SELECT * FROM Class WHERE id = %d;",num);
+    sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+    sqlite3_step(stmt);
+    int id = sqlite3_column_int(stmt,0);
+    wchar_t * class_name = (wchar_t *)sqlite3_column_text16(stmt,1);
+    wchar_t * class_teacher_name = (wchar_t *)sqlite3_column_text16(stmt,2);
+    wchar_t * school_name = (wchar_t *)sqlite3_column_text16(stmt,3);
+    printf("%d  %ls  %ls  %ls\n",id,class_name,teacher_name,school_name);
     wcscpy(question,L"你们班是否已经毕业?(请谨慎填写,如果您输入1,将会删除与您班级有关的所有信息)");
     printf("%ls",question);
     int is_graduate;
@@ -87,4 +97,17 @@ void change_class(sqlite3_stmt *stmt,sqlite3 *db) {
     sqlite3_bind_text16(stmt,3,changed_teacher,-1,SQLITE_TRANSIENT);
     sqlite3_step(stmt);
     sqlite3_finalize(stmt);
+    wcscpy(question,L"您班级更改后的信息如下:");
+    printf("%ls",question);
+    sprintf(query,"SELECT * FROM Class WHERE id = %d;",num);
+    sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+    sqlite3_step(stmt);
+    id = sqlite3_column_int(stmt,0);
+    class_name = (wchar_t *)sqlite3_column_text16(stmt,1);
+    class_teacher_name = (wchar_t *)sqlite3_column_text16(stmt,2);
+    school_name = (wchar_t *)sqlite3_column_text16(stmt,3);
+    printf("%d  %ls  %ls  %ls\n",id,class_name,class_teacher_name,school_name);
+    wcscpy(question,L"您需不需要更您班级提供的服务?");
+    printf("%ls",question);
+    scanf("%d",&saving);
 }
