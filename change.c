@@ -24,5 +24,7 @@ void change_information(sqlite3 *db, sqlite3_stmt *stmt) {
         change_class(stmt,db);
     }else if (information == 2) {
         change_student(stmt,db);
+    }else if (information == 3) {
+        change_service(db,stmt);
     }
 }
