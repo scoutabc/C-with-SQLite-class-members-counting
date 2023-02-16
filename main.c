@@ -37,6 +37,7 @@ int main(int argc,char *argv[]) {
             do_help();
             break;
         case 'l':
+            list(db,stmt);
             break;
         case -1:
         case 'n':

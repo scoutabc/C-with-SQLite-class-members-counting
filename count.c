@@ -80,16 +80,12 @@ void count_the_students(sqlite3 *db,sqlite3_stmt *stmt) {
         if (duration == 1 || duration == 2) {
             time_t timenow;
             time(&timenow);
-            struct tm *info;
-            info = localtime(&timenow);
-            char today_date[12];
-            sprintf(today_date,"%d-%d-%d",info->tm_year + 1900,info->tm_mon + 1,info->tm_mday);
             sprintf(query,"INSERT INTO Student_join_service VALUES(?,?,?,?,?);");
             sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
             sqlite3_bind_int(stmt,1,num);
             sqlite3_bind_int(stmt,2,i);
             sqlite3_bind_int(stmt,3,service_id);
-            sqlite3_bind_text(stmt,4,today_date,-1,SQLITE_TRANSIENT);
+            sqlite3_bind_int(stmt,4,timenow);
             sqlite3_bind_int(stmt,5,duration);
             sqlite3_step(stmt);
             sqlite3_finalize(stmt);

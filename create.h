@@ -13,3 +13,5 @@ void do_query_with_prepare(sqlite3 *db,sqlite3_stmt *stmt,char *query);
 void change_class(sqlite3_stmt *stmt,sqlite3 *db);
 void change_student(sqlite3_stmt *stmt,sqlite3 *db);
 void change_service(sqlite3 *db,sqlite3_stmt *stmt);
+int last_day_of_month(char *month);
+void list(sqlite3 *db,sqlite3_stmt *stmt);
