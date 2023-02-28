@@ -9,10 +9,15 @@
 // 将统计结果打印到输出流或者打印到csv表里
 
 static void calculate_the_time(sqlite3_context *context, int argc, sqlite3_value **argv) {
+    int rc;
     struct tm *info;
+    if (sqlite3_value_type(argv[0]) != SQLITE_INTEGER) {
+        sqlite3_result_error(context, "Input parameter must be an integer", -1);
+        return;
+    }
     time_t the_time = (time_t)sqlite3_value_int(argv[0]);
     info = localtime(&the_time);
-    char *the_date;
+    char the_date[15] = {0};
     sprintf(the_date,"%d-%d",info -> tm_year + 1900,info -> tm_mon + 1);
     sqlite3_result_text(context,the_date,strlen(the_date),SQLITE_TRANSIENT);
 }
@@ -98,7 +103,6 @@ void list(sqlite3 *db, sqlite3_stmt *stmt){
     scanf("%d",&chance);
     if (chance == 1) {
         FILE *fp;
-        wchar_t *wmonth = (wchar_t*) month;
         char filename[20];
         sprintf(filename,"data%s.csv",month);
         printf("%s",month);
@@ -118,17 +122,42 @@ void list(sqlite3 *db, sqlite3_stmt *stmt){
             sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
             sqlite3_step(stmt);
             int number_of_students = sqlite3_column_int(stmt,0);
+            double the_all_the_530_money = 0.0;
+            int the_all_the_530_times = 0;
+            double the_all_the_630_money = 0;
+            int the_all_the_630_times = 0;
             for (int i = 1; i <= number_of_students; i++) {
+                sprintf(query,"SELECT price FROM Service,Student_join_service WHERE Service.id = Student_join_service.service_id;");
                 sprintf(query,"SELECT name FROM Students WHERE id = %d;",i);
                 sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
                 sqlite3_step(stmt);
                 wchar_t *student_name = (wchar_t*)sqlite3_column_text16(stmt,0);
                 fprintf(fp,"%d,%ls,4.5,",i,student_name);
-                rc = register_udf(db);
-                int the_times_of_530; 
-                sprintf(query,"SELECT NUM(*) FROM Student_join_service WHERE calculate_the_time(date) = %s AND class_id = %d AND student_id = %d",month,num,i);
+                rc = register_udf(db); 
+                sprintf(query,"SELECT COUNT(*) FROM Student_join_service WHERE calculate_the_time(date) = '%s' AND class_id = %d AND student_id = %d",month,num,i);
+                rc = sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+                rc = sqlite3_step(stmt);
+                int the_times_of_530 = sqlite3_column_int(stmt,0);
+                double the_money_of_530 = the_times_of_530 * 4.5;
+                the_all_the_530_times += the_times_of_530;
+                the_all_the_530_money += the_money_of_530;
+                fprintf(fp,"%d,%f,",the_times_of_530,the_money_of_530);
+                sprintf(query,"SELECT COUNT(*) FROM Student_join_service WHERE calculate_the_time(date) = '%s' AND class_id = %d AND student_id = %d AND duration = 2",month,num,i);
+                rc = sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+                rc = sqlite3_step(stmt);
+                int the_times_of_630 = sqlite3_column_int(stmt,0);
+                double the_money_of_630 = the_times_of_630 * 4.5;
+                double the_money = the_money_of_530 + the_money_of_630;
+                the_all_the_630_times += the_times_of_630;
+                the_all_the_630_money += the_money_of_630;
+                fprintf(fp,"4.5,%d,%f,%f",the_times_of_630,the_money_of_630,the_money);
                 fprintf(fp,"\n");
             }
+            double the_all_the_money = the_all_the_530_money + the_all_the_630_money;
+            fprintf(fp,",,,,,,,,\n");
+            wcscpy(question,L"合计");
+            fprintf(fp,"%ls,",question);
+            fprintf(fp,",,%d,%f,,%d,%f,%f\n",the_all_the_530_times,the_all_the_530_money,the_all_the_630_times,the_all_the_630_money,the_all_the_money);
         }
         fclose(fp);
     }

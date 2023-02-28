@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include<locale.h>
 #include<string.h>
-#include"create.h"
+#include"./functions/create.h"
 //这个程序可以将学生和班级信息储存到表格中
 
 //可以用这个函数执行一些sql命令
@@ -22,38 +22,12 @@ void do_query(char *query,sqlite3 *db) {
 void create_message(sqlite3 *db,sqlite3_stmt *stmt) {
     setlocale(LC_ALL,"");
     //I create five tables in that database
-    char query[1000] = "CREATE TABLE IF NOT EXISTS Students(" \
-                  "id INTEGER NOT NULL," \
-                  "name CHAR[20] NOT NULL," \
-                  "class_id INTEGER NOT NULL" \
-                  ");";
-    do_query(query,db);
-    strcpy(query,"CREATE TABLE IF NOT EXISTS Class(" \
-            "id INTEGER NOT NULL," \
-            "name CHAR[30] NOT NULL," \
-            "teacher CHAR[20] NULL," \
-            "school CHAR[50] NULL" \
-            ");");
-    do_query(query,db);
-    strcpy(query,"CREATE TABLE IF NOT EXISTS Service(" \
-            "id INTEGER NOT NULL," \
-            "name CHAR[30] NOT NULL," \
-            "price CHAR[10] NOT NULL" \
-            ");");
-    do_query(query,db);
-    strcpy(query,"CREATE TABLE IF NOT EXISTS Class_supply_service(" \
-            "class_id INTEGER NOT NULL," \
-            "service_id INTEGER NOT NULL" \
-            ");");
-    do_query(query,db);
-    strcpy(query,"CREATE TABLE IF NOT EXISTS Student_join_service(" \
-            "class_id INTEGER NOT NULL," \
-            "student_id INTEGER NOT NULL,"\
-            "service_id INTEGER NOT NULL," \
-            "date INTEGER NOT NULL," \
-            "duration INTEGER NOT NULL" \
-            ");");
-    do_query(query,db);
+    create_students(db);
+    char query[300];
+    create_class(db);
+    create_service(db);
+    create_class_supply_service(db);
+    create_student_join_service(db);
     //Then users can create class information
     int saving,num,rc;
     wchar_t question[300];
@@ -144,4 +118,14 @@ void create_message(sqlite3 *db,sqlite3_stmt *stmt) {
         sqlite3_step(stmt);
         sqlite3_finalize(stmt);
     }
+    snwprintf(question,150,L"班级号码：%d,班级名称:%ls,班主任名称:%ls,学校名称:%ls",num,class,name,school);
+    printf("%ls\n",question);
+    sprintf(query,"SELECT * FROM Students WHERE class_id = %d;",num);
+    sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        int student_id = sqlite3_column_int(stmt,0);
+        wchar_t *the_name = (wchar_t*)sqlite3_column_text16(stmt,1);
+        printf("%d,%ls",student_id,the_name);
+    }
+    sqlite3_finalize(stmt);
 }
