@@ -1,8 +1,8 @@
 #include<locale.h>
 #include<stdio.h>
 #include<wchar.h>
-#include"create.h"
-#include"sqlite3.h"
+#include"../include/other.h"
+#include"../include/sqlite3.h"
 //更改班级信息
 void change_class(sqlite3_stmt *stmt,sqlite3 *db) {
     wchar_t question[300];

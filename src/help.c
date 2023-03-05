@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<wchar.h>
 #include<locale.h>
-#include"create.h"
+#include"../include/other.h"
 
 //输出用法指南
 void do_help() {

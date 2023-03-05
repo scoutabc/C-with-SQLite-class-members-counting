@@ -1,8 +1,8 @@
 #include <locale.h>
 #include <stdio.h>
 #include <wchar.h>
-#include "create.h"
-#include "sqlite3.h"
+#include "../include/other.h"
+#include "../include/sqlite3.h"
 // 更改或添加服务信息
 void change_service(sqlite3 *db, sqlite3_stmt *stmt)
 {

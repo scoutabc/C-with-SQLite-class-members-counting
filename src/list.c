@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "sqlite3.h"
-#include "create.h"
+#include "../include/sqlite3.h"
+#include "../include/other.h"
 // 将统计结果打印到输出流或者打印到csv表里
 
 static void calculate_the_time(sqlite3_context *context, int argc, sqlite3_value **argv) {

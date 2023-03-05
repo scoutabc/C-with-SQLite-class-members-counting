@@ -1,8 +1,8 @@
 #include<stdio.h>
-#include"sqlite3.h"
+#include"../include/sqlite3.h"
 #include<stdlib.h>
 #include<locale.h>
-#include"create.h"
+#include"../include/other.h"
 #include <time.h>
 //可以统计一天的参加服务情况.
 void count_the_students(sqlite3 *db,sqlite3_stmt *stmt) {

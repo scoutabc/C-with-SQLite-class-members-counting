@@ -6,7 +6,10 @@
         "stdio.h": "c",
         "stdlib.h": "c",
         "string.h": "c",
-        "create.h": "c"
+        "create.h": "c",
+        "other.h": "c",
+        "iconv.h": "c",
+        "time.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "makefile.launchConfigurations": [

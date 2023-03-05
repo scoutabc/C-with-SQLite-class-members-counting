@@ -1,8 +1,8 @@
 #include<locale.h>
 #include<stdio.h>
 #include<wchar.h>
-#include"create.h"
-#include"sqlite3.h"
+#include"../include/other.h"
+#include"../include/sqlite3.h"
 //可以用于修改学生,班级或服务信息
 
 //这个函数可以用sqlite3_prepare_v2函数的方式来执行sql命令

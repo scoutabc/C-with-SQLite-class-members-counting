@@ -1,8 +1,8 @@
 #include<locale.h>
 #include<stdio.h>
 #include<wchar.h>
-#include"create.h"
-#include"sqlite3.h"
+#include"../include/other.h"
+#include"../include/sqlite3.h"
 //更改,删除或添加学生信息
 void change_student(sqlite3_stmt *stmt,sqlite3 *db) {
     int saving;

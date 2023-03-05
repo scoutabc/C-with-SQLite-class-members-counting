@@ -1,10 +1,11 @@
 #include<stdio.h>
 #include<wchar.h>
-#include"sqlite3.h"
+#include"../include/sqlite3.h"
 #include<stdlib.h>
 #include<locale.h>
 #include<string.h>
-#include"./functions/create.h"
+#include"../include/other.h"
+#include"../include/create.h"
 //这个程序可以将学生和班级信息储存到表格中
 
 //可以用这个函数执行一些sql命令

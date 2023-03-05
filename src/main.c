@@ -1,11 +1,11 @@
 #include<stdio.h>
 #include<wchar.h>
-#include"sqlite3.h"
+#include"../include/sqlite3.h"
 #include<stdlib.h>
 #include<locale.h>
 #include<string.h>
 #include<iconv.h>
-#include"create.h"
+#include"../include/other.h"
 #include<getopt.h>
 #include<time.h>
 //这个程序是该项目的主程序
