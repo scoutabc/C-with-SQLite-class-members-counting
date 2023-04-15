@@ -9,3 +9,6 @@
 
 #Makefile
 makefile
+
+#静态库源文件
+*lib.c
