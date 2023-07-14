@@ -94,7 +94,7 @@ void list(sqlite3 *db, sqlite3_stmt *stmt){
         strcat(end_date, end_date_add);
         printf("%s~%s\n", start_date, end_date);
         wcscpy(question, L"您确定吗?");
-        printf("%ls");
+        printf("%ls",question);
         scanf("%d",&saving);
     }while(saving == 0);
     int chance;
@@ -112,7 +112,7 @@ void list(sqlite3 *db, sqlite3_stmt *stmt){
             sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
             sqlite3_step(stmt);
             wchar_t *class_name = (wchar_t*)sqlite3_column_text16(stmt,0);
-            snwprintf(question,300,L"月课后服务收费明细  班级(  %ls  ),,,,,,,,",class_name);
+            swprintf(question,300,L"月课后服务收费明细  班级(  %ls  ),,,,,,,,",class_name);
             fprintf(fp,"%s%ls\n",month,question);
             wcscpy(question,L"序号,姓名,05:30,,,06:30,,,应收合计");
             fprintf(fp,"%ls\n",question);

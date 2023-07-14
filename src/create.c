@@ -45,7 +45,7 @@ void create_message(sqlite3 *db,sqlite3_stmt *stmt) {
         wcscpy(question,L"请输入学校及班级名称:");
         printf("%ls",question);
         scanf("%ls,%ls",school,class);
-        snwprintf(question,150,L"班级号码：%d,班级名称:%ls,班主任名称:%ls,学校名称:%ls",num,class,name,school);
+        swprintf(question,150,L"班级号码：%d,班级名称:%ls,班主任名称:%ls,学校名称:%ls",num,class,name,school);
         printf("%ls\n",question);
         wcscpy(question,L"您确定保存?(保存输入1,否则输入0)");
         printf("%ls",question);
@@ -119,7 +119,7 @@ void create_message(sqlite3 *db,sqlite3_stmt *stmt) {
         sqlite3_step(stmt);
         sqlite3_finalize(stmt);
     }
-    snwprintf(question,150,L"班级号码：%d,班级名称:%ls,班主任名称:%ls,学校名称:%ls",num,class,name,school);
+    swprintf(question,150,L"班级号码：%d,班级名称:%ls,班主任名称:%ls,学校名称:%ls",num,class,name,school);
     printf("%ls\n",question);
     sprintf(query,"SELECT * FROM Students WHERE class_id = %d;",num);
     sqlite3_prepare_v2(db,query,-1,&stmt,NULL);

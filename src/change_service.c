@@ -38,7 +38,7 @@ void change_service(sqlite3 *db, sqlite3_stmt *stmt)
             wcscpy(question, L"请输入该服务的单价(加单位):");
             printf("%ls", question);
             scanf("%ls", price);
-            snwprintf(question, 300, L"您确定吗(%d  %ls  %ls,确定输入1,否则输入0)?\n", id + 1, addition_service, price);
+            swprintf(question, 300, L"您确定吗(%d  %ls  %ls,确定输入1,否则输入0)?\n", id + 1, addition_service, price);
             printf("%ls", question);
             scanf("%d", &saving);
         } while (saving != 1);

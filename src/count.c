@@ -4,6 +4,7 @@
 #include<locale.h>
 #include"../include/other.h"
 #include <time.h>
+#include<wchar.h>
 //可以统计一天的参加服务情况.
 void count_the_students(sqlite3 *db,sqlite3_stmt *stmt) {
     setlocale(LC_ALL,"");
@@ -26,7 +27,7 @@ void count_the_students(sqlite3 *db,sqlite3_stmt *stmt) {
         }
         wchar_t *class_teacher = (wchar_t*)sqlite3_column_text16(stmt,2);
         wchar_t *school_name = (wchar_t*)sqlite3_column_text16(stmt,3);
-        snwprintf(question,300,L"班级名称:%ls,班主任名称:%ls,所在学校名称:%ls",class_name,class_teacher,school_name);
+        swprintf(question,300,L"班级名称:%ls,班主任名称:%ls,所在学校名称:%ls",class_name,class_teacher,school_name);
         printf("%ls\n",question);
         wcscpy(question,L"您确定吗?(确定输入1,否则输入0)");
         printf("%ls",question);
@@ -65,7 +66,7 @@ void count_the_students(sqlite3 *db,sqlite3_stmt *stmt) {
         sqlite3_prepare_v2(db,query,-1,&stmt,NULL);
         sqlite3_step(stmt);
         wchar_t *student_name = (wchar_t*)sqlite3_column_text16(stmt,0);
-        snwprintf(question,300,L"%d:%ls(1. 4:30~5:30, 2. 4:30~6:30, 0. 没有参加, 其余数字自动按0处理)",i,student_name);
+        swprintf(question,300,L"%d:%ls(1. 4:30~5:30, 2. 4:30~6:30, 0. 没有参加, 其余数字自动按0处理)",i,student_name);
         sqlite3_finalize(stmt);
         printf("%ls",question);
         int duration;

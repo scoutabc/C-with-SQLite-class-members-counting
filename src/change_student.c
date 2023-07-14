@@ -41,7 +41,7 @@ void change_student(sqlite3_stmt *stmt,sqlite3 *db) {
         printf("%ls\n",student_name);
     }
     wcscpy(question,L"您是否需要添加学生(只能添加到最后)");
-    printf("%ls\n");
+    printf("%ls\n",question);
     scanf("%d",&saving);
     int count_of_students;
     sprintf(query,"SELECT COUNT(*) FROM Students WHERE class_id = %d;",num);
